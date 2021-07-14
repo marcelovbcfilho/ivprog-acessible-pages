@@ -25,6 +25,7 @@
     <link rel="stylesheet" href="css/accessible/design.css"/>
     <link rel="stylesheet" href="css/accessible/forms_var_comand.css"/>
 </head>
+
 <body>
 <!-- Change UI -->
 <div class="row">
@@ -82,8 +83,8 @@
                         <i class="check icon"></i>
                     </a>
                     <!--<a class="item expand_button">
-                      <i class="expand arrows alternate icon"></i>
-                    </a>-->
+                  <i class="expand arrows alternate icon"></i>
+                </a>-->
                     <a class="item help_button">
                         <i class="help icon"></i>
                     </a>
@@ -143,73 +144,75 @@
 <!-- Accessible UI -->
 <div class="container" id="accessibleInterface" style="display: none;">
     <!-- Header -->
-    <div class="row" role="header">
-        <!-- Title -->
-        <div class="col-3">
-            <header>
-                <h1 tabindex="0">iVProg Acessível</h1>
-            </header>
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <a class="navbar-brand" tabindex="0">iVProg Acessível</a>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="#inicio" title="Alt + i" accesskey="i">Ir função inicio</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#terminal" title="Alt + t" accesskey="t">Ir para o terminal</a>
+                </li>
+            </ul>
         </div>
-        <!-- Title -->
-
-        <!-- Screen reader shortcuts -->
-        <div class="col-9">
-            <nav id="nav_ir_para_conteudo" class="nav" role="navigation">
-                <a class="nav-link" href="#inicio" title="Alt + i" accesskey="i">Ir função inicio</a>
-                <a class="nav-link" href="#terminal" title="Alt + t" accesskey="t">Ir para o terminal</a>
-            </nav>
-        </div>
-        <!-- Screen reader shortcuts -->
-    </div>
+    </nav>
     <!-- Header -->
 
     <!-- Main container -->
     <div id="main" class="row" role="main">
         <div class="col-12">
             <fieldset>
-                <legend>
+                <legend class="p-1">
                     <h1 tabindex="0" id="inicio">Função início</h1>
                 </legend>
 
                 <ol id="htmlOlCommandsVariablesVariables"></ol>
                 <ol id="htmlOlCommandsVariablesOperations"></ol>
-                <div id="botoes">
-                    <div class="dropdown btn btn-primary" id="bt_add_comand">
-                        <a class="btn btn-primary dropdown-toggle" role="button" tabindex="0" id="dropdownMenuLink"
-                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Comandos
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                            <a class="dropdown-item" href="#" id="createVariableButton">
-                                Nova Variável
-                            </a>
-                            <a class="dropdown-item" href="#" id="assignVariableButton">
-                                Atribuição e Operações
-                            </a>
+                <div class="row">
+                    <div class="col-12 p-4" style="text-align: right;">
+                        <div id="botoes" class="btn-group">
+                            <div class="dropdown btn btn-primary" id="bt_add_comand">
+                                <a class="btn btn-primary dropdown-toggle" role="button" tabindex="0"
+                                   id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
+                                   aria-expanded="false">
+                                    Comandos
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                    <a class="dropdown-item" href="#" id="createVariableButton">
+                                        Nova Variável
+                                    </a>
+                                    <a class="dropdown-item" href="#" id="assignVariableButton">
+                                        Atribuição e Operações
+                                    </a>
+                                </div>
+                            </div>
+
+                            <button class="btn btn-success" id="runCodeButton">
+                                Executar
+                                <i id="runCodePlayIcon" class="play icon" style="display: inline;"></i>
+                                <i id="runCodeStopIcon" class="stop icon" style="display: none;"></i>
+                            </button>
                         </div>
                     </div>
-
-                    <button class="btn btn-success" id="runCodeButton">
-                        Executar
-                        <i id="runCodePlayIcon" class="play icon" style="display: inline;"></i>
-                        <i id="runCodeStopIcon" class="stop icon" style="display: none;"></i>
-                    </button>
                 </div>
             </fieldset>
         </div>
     </div>
     <!-- Main container -->
 
+    <br/>
+
     <!-- Terminal -->
     <div class="row">
         <div class="col-12">
-            <div id="terminal" style="width: 97%; margin-left: 2%"></div>
+            <div id="terminal" class="acessible-terminal" style="width: 97%; margin-left: 2%"></div>
         </div>
     </div>
     <!-- Terminal -->
 
     <!-- Debug only -->
-    <div class="row">
+    <div class="row" style="display: none">
         <div class="col-12">
             <h5>Código gerado para debug - Código gerado</h5>
             <div style="width: 97%; margin-left: 2%; background-color: wheat; color: black;">
@@ -223,68 +226,69 @@
 <!-- Accessible UI -->
 
 <!-- Accessible UI JS -->
-<script src="js/vendors~main.16cf2e644d1a8c43360a.js"></script><script src="js/main.9acb771492d172151b2c.js"></script></body>
+<script src="js/vendors~main.f5bc2fd6abfb67dc4426.js"></script><script src="js/main.96a439dd977becefc1d5.js"></script></body>
 <script>
-  var mouseX;
-  var mouseY;
-  $(document).ready(() => {
-    var $buttons = $('.ivprog_format .button'),
-      handler = {
-        activate: function () {
-          $(this)
-            .addClass('active')
-            .siblings()
-            .removeClass('active');
+    var mouseX;
+    var mouseY;
+    $(document).ready(() => {
+        var $buttons = $('.ivprog_format .button'),
+            handler = {
+                activate: function () {
+                    $(this)
+                        .addClass('active')
+                        .siblings()
+                        .removeClass('active');
+                }
+            };
+
+        $buttons.on('click', handler.activate);
+        $('.ivprog_format_info').popup(
+            {
+                popup: $('.custom.popup'),
+                on: 'click'
+            });
+
+        $(".data_types_dropdown").dropdown();
+
+        $('.ui.dropdown').dropdown();
+
+        $('.ivprog_visual_panel').removeClass("loading");
+
+        $(document).mousemove(function (e) {
+            var parentOffset = $('.ivprog_visual_panel').offset();
+            ;
+            mouseX = e.pageX - parentOffset.left + 300;
+            mouseY = e.pageY - parentOffset.top + 100;
+            /*$('.created_element').css('top', mouseY);
+            $('.created_element').css('left', mouseX);*/
+        });
+        ivprogCore.LocalizedStrings.updateTagText();
+        ivprogCore.CodeEditor.initTextEditor("ivprog-text-editor");
+        iassingIntegration();
+        if (iLMparameters.iLM_PARAM_TeacherAutoEval == null) {
+            ivprogCore.initVisualUI();
         }
-      };
 
-    $buttons.on('click', handler.activate);
-    $('.ivprog_format_info').popup(
-      {
-        popup: $('.custom.popup'),
-        on: 'click'
-      });
-
-    $(".data_types_dropdown").dropdown();
-
-    $('.ui.dropdown').dropdown();
-
-    $('.ivprog_visual_panel').removeClass("loading");
-
-    $(document).mousemove(function (e) {
-      var parentOffset = $('.ivprog_visual_panel').offset();
-      ;
-      mouseX = e.pageX - parentOffset.left + 300;
-      mouseY = e.pageY - parentOffset.top + 100;
-      /*$('.created_element').css('top', mouseY);
-      $('.created_element').css('left', mouseX);*/
+        ivprogCore.initAccessibleUI();
     });
-    ivprogCore.LocalizedStrings.updateTagText();
-    ivprogCore.CodeEditor.initTextEditor("ivprog-text-editor");
-    iassingIntegration();
-    if (iLMparameters.iLM_PARAM_TeacherAutoEval == null) {
-      ivprogCore.initVisualUI();
-    }
-
-    ivprogCore.initAccessibleUI();
-  });
 </script>
 
 <!-- Accessible JS -->
 <script src="js/accessible/bootstrap/bootstrap.bundle.js"></script>
 <script src="js/accessible/bootstrap/bootstrap.js"></script>
 <script>
-  const visualInterface = document.getElementById('visualInterface');
-  const accessibleInterface = document.getElementById('accessibleInterface');
+    const visualInterface = document.getElementById('visualInterface');
+    const accessibleInterface = document.getElementById('accessibleInterface');
 
-  document.getElementById('enableVisualUI').addEventListener('click', (event) => {
-    visualInterface.style.display = 'block';
-    accessibleInterface.style.display = 'none';
-  });
+    document.getElementById('enableVisualUI').addEventListener('click', (event) => {
+        visualInterface.style.display = 'block';
+        accessibleInterface.style.display = 'none';
+    });
 
-  document.getElementById('enableAccessibleUI').addEventListener('click', (event) => {
-    visualInterface.style.display = 'none';
-    accessibleInterface.style.display = 'block';
-  });
+    document.getElementById('enableAccessibleUI').addEventListener('click', (event) => {
+        visualInterface.style.display = 'none';
+        accessibleInterface.style.display = 'block';
+    });
 </script>
+
 </html>
