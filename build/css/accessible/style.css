@@ -1,0 +1,34 @@
+body {
+    padding: 50px;
+    font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+a {
+    color: #00B7FF;
+}
+
+.variable-available-sub-menu {
+    background-color: #80bdff;
+}
+
+.variable-available-main {
+    background-color: #80bdff;
+    border: 1px solid #646464;
+}
+
+.variable-attribution-main {
+    background-color: cornflowerblue;
+    border: 1px solid #646464;
+}
+
+.variable-attribution-sub-menu {
+    background-color: cornflowerblue;
+}
+
+.operation-sub-menu {
+    background-color: #5e1b7c;
+}
+
+.operation-main {
+    background-color: #624e7c;
+}
