@@ -28561,34 +28561,22 @@ var LocalizedStrings = /** @class */ (function () {
     }
     LocalizedStrings.prototype.getString = function (id, type) {
         var i18nObj = this.i18nData[this.service.getLang()];
-        if (!i18nObj) {
+        if (!!!i18nObj) {
             console.warn("Internal Error. The language set at ivprog.lang is not valid: " + this.service.getLang());
-            return this.getDefaultString(id, type);
+            i18nObj = this.i18nData[this.service.getDefaultLang()];
         }
-        if (!i18nObj[type]) {
-            return this.getDefaultString(id, type);
+        if (!!!i18nObj[type]) {
+            return "{MISSING_I18N_TYPE_IDENTIFIER}";
         }
-        else if (!i18nObj[type][id]) {
-            return this.getDefaultString(id, type);
-        }
-        else {
-            return i18nObj[type][id];
-        }
-    };
-    LocalizedStrings.prototype.getDefaultString = function (id, type) {
-        var i18nObj = this.i18nData[this.service.getDefaultLang()];
-        if (!i18nObj[type]) {
-            return "{MISSING_I18N_TYPE_IDENTIFIER: " + type + "}";
-        }
-        else if (!i18nObj[type][id]) {
-            return "{MISSING_I18N_IDENTIFIER: " + id + "}";
+        else if (!!!i18nObj[type][id]) {
+            return "{MISSING_I18N_IDENTIFIER}";
         }
         else {
             return i18nObj[type][id];
         }
     };
     LocalizedStrings.prototype.getOR = function () {
-        return this.getUI("string_join_or");
+        return this.getUI('string_join_or');
     };
     LocalizedStrings.prototype.getError = function (id, context) {
         if (context === void 0) { context = []; }
@@ -28608,7 +28596,7 @@ var LocalizedStrings = /** @class */ (function () {
     LocalizedStrings.prototype.processString = function (text, context) {
         for (var i = 0; i < context.length; i++) {
             var v = context[i];
-            text = text.replace("$" + i, v);
+            text = text.replace('\$' + i, v);
         }
         return text;
     };
@@ -28631,7 +28619,7 @@ var LocalizedStrings = /** @class */ (function () {
         if (text === null) {
             return "<Invalid i18n identifier>";
         }
-        var opts = text.split(":");
+        var opts = text.split(':');
         var type = opts[0].toLowerCase();
         var id = opts[1];
         if (_StringTypes__WEBPACK_IMPORTED_MODULE_0__["StringTypes"].ERROR === type) {
@@ -28644,8 +28632,7 @@ var LocalizedStrings = /** @class */ (function () {
             return this.getUI(id);
         }
         else {
-            console.warn(" A string has been passed to the i18n helper function that was not in the form type:id -> " +
-                text);
+            console.warn(" A string has been passed to the i18n helper function that was not in the form type:id -> " + text);
             return this.getString(id, type);
         }
     };
@@ -30263,4 +30250,4 @@ try {
 /***/ })
 
 }]);
-//# sourceMappingURL=vendors~main.16cf2e644d1a8c43360a.js.map
+//# sourceMappingURL=vendors~main.f5bc2fd6abfb67dc4426.js.map

@@ -172,7 +172,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /*! exports provided: version, default */
 /***/ (function(module) {
 
-module.exports = JSON.parse("{\"version\":\"2021_08_02 22_43\"}");
+module.exports = JSON.parse("{\"version\":\"2021_09_17 15_04\"}");
 
 /***/ }),
 
@@ -256,7 +256,7 @@ module.exports =
 /* 0 */
 /***/ (function(module, exports, __webpack_require__) {
 
-// Generated from /tmp/tmp-16997K0mJS89nF3Kc/ivprog.g4 by ANTLR 4.7
+// Generated from /var/folders/yn/r8b6dqqs50lcb1p1kzdw7byr0000gn/T/tmp-9889xhQ0vVxjhQb0/ivprog.g4 by ANTLR 4.7
 // jshint ignore: start
 var antlr4 = __webpack_require__(2);
 
@@ -932,7 +932,7 @@ module.exports =
 /* 0 */
 /***/ (function(module, exports, __webpack_require__) {
 
-// Generated from /tmp/tmp-169974ZCfXfzKrg7N/ivprog.g4 by ANTLR 4.7
+// Generated from /var/folders/yn/r8b6dqqs50lcb1p1kzdw7byr0000gn/T/tmp-98892dUWZAsJTmD3/ivprog.g4 by ANTLR 4.7
 // jshint ignore: start
 var antlr4 = __webpack_require__(2);
 
@@ -1618,29 +1618,34 @@ function generateCode() {
   code += "    funcao vazio inicio () {\n";
 
   for (var _i = 0; _i < _modules_operations_operations__WEBPACK_IMPORTED_MODULE_2__["operations"].length; _i++) {
-    code += "        ".concat(_modules_operations_operations__WEBPACK_IMPORTED_MODULE_2__["operations"][_i].assignedVariable.name, " <- ");
+    switch (_modules_operations_operations__WEBPACK_IMPORTED_MODULE_2__["operations"][_i].type) {
+      case 'ASSIGN':
+        code += "        ".concat(_modules_operations_operations__WEBPACK_IMPORTED_MODULE_2__["operations"][_i].assignedVariable.name, " <- ");
 
-    for (var j = 0; j < _modules_operations_operations__WEBPACK_IMPORTED_MODULE_2__["operations"][_i].operators.length; j++) {
-      switch (_modules_operations_operations__WEBPACK_IMPORTED_MODULE_2__["operations"][_i].operators[j].type.value) {
-        case 'VARIABLE':
-          code += _modules_operations_operations__WEBPACK_IMPORTED_MODULE_2__["operations"][_i].operators[j].variable.name;
-          break;
+        for (var j = 0; j < _modules_operations_operations__WEBPACK_IMPORTED_MODULE_2__["operations"][_i].operators.length; j++) {
+          switch (_modules_operations_operations__WEBPACK_IMPORTED_MODULE_2__["operations"][_i].operators[j].type.value) {
+            case 'VARIABLE':
+              code += _modules_operations_operations__WEBPACK_IMPORTED_MODULE_2__["operations"][_i].operators[j].variable.name;
+              break;
 
-        case 'VALUE':
-          code += _modules_operations_operations__WEBPACK_IMPORTED_MODULE_2__["operations"][_i].operators[j].value;
-          break;
+            case 'VALUE':
+              code += _modules_operations_operations__WEBPACK_IMPORTED_MODULE_2__["operations"][_i].operators[j].value;
+              break;
 
-        case 'OPERATOR':
-          code += _modules_operations_operations__WEBPACK_IMPORTED_MODULE_2__["operations"][_i].operators[j].operator.name;
-          break;
-      }
+            case 'OPERATOR':
+              code += _modules_operations_operations__WEBPACK_IMPORTED_MODULE_2__["operations"][_i].operators[j].operator.name;
+              break;
+          }
+        }
+
+        break;
+
+      case 'PRINT':
+        code += "        escreva (\"".concat(_modules_operations_operations__WEBPACK_IMPORTED_MODULE_2__["operations"][_i].assignedVariable.name, ": \" + ").concat(_modules_operations_operations__WEBPACK_IMPORTED_MODULE_2__["operations"][_i].assignedVariable.name, " + \"\\n\")");
+        break;
     }
 
     code += "\n";
-  }
-
-  for (var _i2 = 0; _i2 < _modules_variables_variables__WEBPACK_IMPORTED_MODULE_1__["variables"].length; _i2++) {
-    code += "        escreva (\"".concat(_modules_variables_variables__WEBPACK_IMPORTED_MODULE_1__["variables"][_i2].name, ": \" + ").concat(_modules_variables_variables__WEBPACK_IMPORTED_MODULE_1__["variables"][_i2].name, " + \"\\n\")\n");
   }
 
   code += "    }\n";
@@ -1781,8 +1786,10 @@ var terminal = document.getElementById('terminal'); // *************************
 
 var createVariableButton = document.getElementById('createVariableButton');
 var assignVariableButton = document.getElementById('assignVariableButton');
+var printButton = document.getElementById('printButton');
 var runCodeButton = document.getElementById('runCodeButton');
 var cleanCommands = document.getElementById('cleanCommands');
+var ivprogConsoleClearbtn = document.getElementById('ivprog-console-clearbtn');
 function initAccessibleUI() {
   // Initializing dropdown menus
   $(".dropdown-submenu a.test").on("click", function (e) {
@@ -1800,7 +1807,11 @@ function initAccessibleUI() {
   assignVariableButton.addEventListener('click', function (ev) {
     Object(_modules_operations_operations__WEBPACK_IMPORTED_MODULE_1__["createOperation"])();
   });
+  printButton.addEventListener('click', function (ev) {
+    Object(_modules_operations_operations__WEBPACK_IMPORTED_MODULE_1__["createPrintOperation"])();
+  });
   runCodeButton.addEventListener('click', function (ev) {
+    ivprogConsoleClearbtn.click();
     Object(_compiler__WEBPACK_IMPORTED_MODULE_2__["runCode"])();
   });
   cleanCommands.addEventListener('click', function (ev) {
@@ -1822,7 +1833,7 @@ function generateUUID() {
 /*!******************************************************************!*\
   !*** ./js/accessibleUI/modules/operations/operations-schemes.js ***!
   \******************************************************************/
-/*! exports provided: operationScheme, operatorScheme, Operators, operatorTypes, operationTypes, operatorKinds, htmlOperationTypeScheme, htmlOperationKindScheme, htmlAssignVariableScheme, htmlVariablesSelectScheme, htmlOperatorVariablesSelectScheme, htmlOperatorValueInputScheme, htmlOperationTypeSelect, getOperatorTypeByValue, getOperationTypeByValue, getOperatorByHash */
+/*! exports provided: operationScheme, operatorScheme, Operators, OperatorType, OperationType, OperatorKind, htmlOperationTypeScheme, htmlOperationKindScheme, htmlAssignVariableScheme, htmlVariablesSelectScheme, htmlOperatorVariablesSelectScheme, htmlOperatorValueInputScheme, htmlOperationTypeSelect, printOperationScheme, getOperatorTypeByValue, getOperationTypeByValue, getOperatorByHash */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1830,9 +1841,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "operationScheme", function() { return operationScheme; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "operatorScheme", function() { return operatorScheme; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Operators", function() { return Operators; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "operatorTypes", function() { return operatorTypes; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "operationTypes", function() { return operationTypes; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "operatorKinds", function() { return operatorKinds; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "OperatorType", function() { return OperatorType; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "OperationType", function() { return OperationType; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "OperatorKind", function() { return OperatorKind; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "htmlOperationTypeScheme", function() { return htmlOperationTypeScheme; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "htmlOperationKindScheme", function() { return htmlOperationKindScheme; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "htmlAssignVariableScheme", function() { return htmlAssignVariableScheme; });
@@ -1840,6 +1851,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "htmlOperatorVariablesSelectScheme", function() { return htmlOperatorVariablesSelectScheme; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "htmlOperatorValueInputScheme", function() { return htmlOperatorValueInputScheme; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "htmlOperationTypeSelect", function() { return htmlOperationTypeSelect; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "printOperationScheme", function() { return printOperationScheme; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getOperatorTypeByValue", function() { return getOperatorTypeByValue; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getOperationTypeByValue", function() { return getOperationTypeByValue; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getOperatorByHash", function() { return getOperatorByHash; });
@@ -1857,6 +1869,7 @@ __webpack_require__.r(__webpack_exports__);
 var operationScheme = {
   hash: 'UUID for the operation',
   assignedVariable: 'Reference to the assigned variable',
+  type: 'ASSIGN',
   operators: []
 }; // *********************************************************************************
 // Scheme for the operators
@@ -1877,7 +1890,7 @@ var Operators = {
   VALUE: 'VALUE',
   OPERATOR: 'OPERATOR'
 };
-var operatorTypes = [{
+var OperatorType = [{
   name: 'Variável',
   value: Operators.VARIABLE
 }, {
@@ -1890,7 +1903,7 @@ var operatorTypes = [{
 // Operation types
 // *********************************************************************************
 
-var operationTypes = [{
+var OperationType = [{
   name: ';',
   friendlyName: 'Fim',
   value: 'SEMICOLON'
@@ -1922,7 +1935,7 @@ var operationTypes = [{
 // Operator kinds
 // *********************************************************************************
 
-var operatorKinds = [{
+var OperatorKind = [{
   name: 'Variável',
   value: 'VARIABLE'
 }, {
@@ -1935,8 +1948,8 @@ var operatorKinds = [{
 function htmlOperationTypeScheme() {
   var operationTypesSelect = "";
 
-  for (var i = 0; i < operationTypes.length; i++) {
-    operationTypesSelect += "<option value=\"".concat(operationTypes[i].value, "\">").concat(operationTypes[i].name, "</option>");
+  for (var i = 0; i < OperationType.length; i++) {
+    operationTypesSelect += "<option value=\"".concat(OperationType[i].value, "\">").concat(OperationType[i].name, "</option>");
   }
 
   return "<div class=\"col-2\">\n                <select id=\"operation<operationKindId>Select\" class=\"form-control\" title=\"selecione o tipo da opera\xE7\xE3o\" >\n                    <option > selecione</option>\n                    ".concat(operationTypesSelect, "\n                </select>\n            </div>");
@@ -1947,8 +1960,8 @@ function htmlOperationTypeScheme() {
 function htmlOperationKindScheme(operation) {
   var operatorKindsSelect = "";
 
-  for (var i = 0; i < operatorKinds.length; i++) {
-    operatorKindsSelect += "<option value=\"".concat(operatorKinds[i].value, "\">").concat(operatorKinds[i].name, "</option>");
+  for (var i = 0; i < OperatorKind.length; i++) {
+    operatorKindsSelect += "<option value=\"".concat(OperatorKind[i].value, "\">").concat(OperatorKind[i].name, "</option>");
   }
 
   return "<div class=\"col-3\">\n                <select id=\"operation".concat(operation.hash, "KindSelect\" class=\"form-control\" title=\"Selecione o tipo de atrabui\xE7\xE3o\" operation-id=\"").concat(operation.hash, "\">\n                    <option >Selecione</option>\n                    ").concat(operatorKindsSelect, "\n                </select>\n            </div>");
@@ -1997,26 +2010,38 @@ function htmlOperatorValueInputScheme(operation, operator) {
 function htmlOperationTypeSelect(operation, operator) {
   var operationTypesSelect = "";
 
-  for (var i = 0; i < operationTypes.length; i++) {
-    operationTypesSelect += "<option value=\"".concat(operationTypes[i].value, "\" title=\"").concat(operationTypes[i].friendlyName, "\">").concat(operationTypes[i].name, "</option>");
+  for (var i = 0; i < OperationType.length; i++) {
+    operationTypesSelect += "<option value=\"".concat(OperationType[i].value, "\" title=\"").concat(OperationType[i].friendlyName, "\">").concat(OperationType[i].name, "</option>");
   }
 
   return "<div class=\"col-2\">\n                <select id=\"operation".concat(operation.hash, "Operator").concat(operator.hash, "OperationTypeSelect\" class=\"form-control\" title=\"selecione o tipo da opera\xE7\xE3o\" operation-id=\"").concat(operation.hash, "\" operator-id=\"").concat(operator.hash, "\">\n                    ").concat(operationTypesSelect, "\n                </select>\n            </div>");
+} // *********************************************************************************
+// Print operation
+// *********************************************************************************
+
+function printOperationScheme(operation) {
+  var variablesSelect = _variables_variables__WEBPACK_IMPORTED_MODULE_0__["variables"].length === 0 ? "<option>N/A</option>" : "";
+
+  for (var i = 0; i < _variables_variables__WEBPACK_IMPORTED_MODULE_0__["variables"].length; i++) {
+    variablesSelect += "<option value=\"".concat(_variables_variables__WEBPACK_IMPORTED_MODULE_0__["variables"][i].hash, "\">").concat(_variables_variables__WEBPACK_IMPORTED_MODULE_0__["variables"][i].name, "</option>");
+  }
+
+  return "<li id=\"operation".concat(operation.hash, "Li\">\n                <form id=\"operation").concat(operation.hash, "Form\">\n                    <div class=\"row p-2 w-100 variable-item\" style=\"background-color: aliceblue;\">\n                        <div class=\"col-1 my-auto\">\n                            <label for=\"operation").concat(operation.hash, "VariableSelect\" style=\"margin-bottom: 0px !important\" tabindex=\"0\" title=\"Escreva\">Escreva</label>\n                        </div>\n                        <div class=\"col-10\">\n                            <select id=\"operation").concat(operation.hash, "VariableSelect\" class=\"form-control\" name=\"variableSelect\" title=\"Selecione a vari\xE1vel\" operation-id=\"").concat(operation.hash, "\">\n                                ").concat(variablesSelect, "\n                            </select>\n                        </div>\n                        <div class=\"col-1 my-auto\" style=\"text-align: end;\">\n                            <div class=\"row justify-content-end\">\n                                <div class=\"col-1\" style=\"margin-right: 4px;\">\n                                    <a id=\"operation").concat(operation.hash, "Resume\" href=\"javascript:void(0)\" class=\"text-info\" operation-id=\"").concat(operation.hash, "\">\n                                        <i class=\"fas fa-eye\"></i>\n                                    </a>\n                                </div>\n                                <div class=\"col-1\">\n                                    <a id=\"operation").concat(operation.hash, "Delete\" href=\"javascript:void(0)\" class=\"text-danger\" operation-id=\"").concat(operation.hash, "\" title=\"Excluir\">X</a>\n                                </div>\n                            </div>\n                        </div>\n                    </div>\n                </form>\n            </li>");
 } // *********************************************************************************
 // Util
 // *********************************************************************************
 
 function getOperatorTypeByValue(value) {
-  for (var i = 0; i < operatorTypes.length; i++) {
-    if (operatorTypes[i].value === value) return operatorTypes[i];
+  for (var i = 0; i < OperatorType.length; i++) {
+    if (OperatorType[i].value === value) return OperatorType[i];
   }
 
   return null;
 } // *********************************************************************************
 
 function getOperationTypeByValue(value) {
-  for (var i = 0; i < operationTypes.length; i++) {
-    if (operationTypes[i].value === value) return operationTypes[i];
+  for (var i = 0; i < OperationType.length; i++) {
+    if (OperationType[i].value === value) return OperationType[i];
   }
 
   return null;
@@ -2036,7 +2061,7 @@ function getOperatorByHash(operation, operatorHash) {
 /*!**********************************************************!*\
   !*** ./js/accessibleUI/modules/operations/operations.js ***!
   \**********************************************************/
-/*! exports provided: operations, createOperation, addOperatorKind, selectedOperationKind, insertVariableAfterOperationKind, insertValueAfterOperationKind, insertOperationTypeAtEndOfOperation, updateOperationAssignValue, updateOperationOperator, deleteOperationByVariable, deleteOperation, deleteAllOperation, getOperationByHash */
+/*! exports provided: operations, createOperation, addOperatorKind, selectedOperationKind, insertVariableAfterOperationKind, insertValueAfterOperationKind, insertOperationTypeAtEndOfOperation, updateOperationAssignValue, updateOperationOperator, deleteOperationByVariable, deleteOperation, deleteAllOperation, createPrintOperation, getOperationByHash */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2053,6 +2078,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "deleteOperationByVariable", function() { return deleteOperationByVariable; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "deleteOperation", function() { return deleteOperation; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "deleteAllOperation", function() { return deleteAllOperation; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createPrintOperation", function() { return createPrintOperation; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getOperationByHash", function() { return getOperationByHash; });
 /* harmony import */ var _main__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../../main */ "./js/accessibleUI/main.js");
 /* harmony import */ var _operations_schemes__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./operations-schemes */ "./js/accessibleUI/modules/operations/operations-schemes.js");
@@ -2265,27 +2291,64 @@ function updateResume(hash) {
 
 function generateResume(hash) {
   var operation = getOperationByHash(hash);
-  var resume = "".concat(operation.assignedVariable.name, " recebe ");
+  var resume;
 
-  for (var i in operation.operators) {
-    console.log(operation.operators[i]);
+  switch (operation.type) {
+    case 'ASSIGN':
+      resume = "".concat(operation.assignedVariable.name, " recebe ");
 
-    switch (operation.operators[i].type.value) {
-      case _operations_schemes__WEBPACK_IMPORTED_MODULE_1__["Operators"].OPERATOR:
-        resume += "".concat(operation.operators[i].operator.friendlyName, " ");
-        break;
+      for (var i in operation.operators) {
+        console.log(operation.operators[i]);
 
-      case _operations_schemes__WEBPACK_IMPORTED_MODULE_1__["Operators"].VALUE:
-        resume += "".concat(operation.operators[i].value, " ");
-        break;
+        switch (operation.operators[i].type.value) {
+          case _operations_schemes__WEBPACK_IMPORTED_MODULE_1__["Operators"].OPERATOR:
+            resume += "".concat(operation.operators[i].operator.friendlyName, " ");
+            break;
 
-      case _operations_schemes__WEBPACK_IMPORTED_MODULE_1__["Operators"].VARIABLE:
-        resume += "".concat(operation.operators[i].variable.name, " ");
-        break;
-    }
+          case _operations_schemes__WEBPACK_IMPORTED_MODULE_1__["Operators"].VALUE:
+            resume += "".concat(operation.operators[i].value, " ");
+            break;
+
+          case _operations_schemes__WEBPACK_IMPORTED_MODULE_1__["Operators"].VARIABLE:
+            resume += "".concat(operation.operators[i].variable.name, " ");
+            break;
+        }
+      }
+
+      break;
+
+    case 'PRINT':
+      resume = "Escreva ".concat(operation.assignedVariable.name);
   }
 
   return resume;
+} // ***********************************************************************
+// Print
+// ***********************************************************************
+
+
+function createPrintOperation() {
+  var operation = Object.assign({}, _operations_schemes__WEBPACK_IMPORTED_MODULE_1__["operationScheme"]);
+  operation.hash = Object(_main__WEBPACK_IMPORTED_MODULE_0__["generateUUID"])().replaceAll('-', '');
+  operation.assignedVariable = _variables_variables__WEBPACK_IMPORTED_MODULE_2__["variables"].length > 0 ? _variables_variables__WEBPACK_IMPORTED_MODULE_2__["variables"][0] : null;
+  operation.type = 'PRINT';
+  operations.push(operation);
+  var printOperation = Object(_operations_schemes__WEBPACK_IMPORTED_MODULE_1__["printOperationScheme"])(operation);
+  _main__WEBPACK_IMPORTED_MODULE_0__["htmlOlCommandsOperations"].insertAdjacentHTML('beforeend', printOperation);
+  updateResume(operation.hash);
+  document.getElementById("operation".concat(operation.hash, "VariableSelect")).addEventListener('change', function (ev) {
+    updatePrintOperation(ev.target.getAttribute('operation-id'), ev.target.value);
+  });
+  document.getElementById("operation".concat(operation.hash, "Delete")).addEventListener('click', function (ev) {
+    deleteOperation(ev.target.getAttribute('operation-id'));
+  });
+}
+
+function updatePrintOperation(hash, newValue) {
+  var operation = getOperationByHash(hash);
+  var variable = Object(_variables_variables__WEBPACK_IMPORTED_MODULE_2__["getVariableByHash"])(newValue);
+  operation.assignedVariable = variable;
+  updateResume(operation.hash);
 } // ***********************************************************************
 // Util
 // ***********************************************************************
@@ -2305,13 +2368,13 @@ function getOperationByHash(hash) {
 /*!****************************************************************!*\
   !*** ./js/accessibleUI/modules/variables/variables-schemes.js ***!
   \****************************************************************/
-/*! exports provided: variableScheme, variableTypes, getVariableTypeByValue, htmlVariableScheme */
+/*! exports provided: variableScheme, VariableType, getVariableTypeByValue, htmlVariableScheme */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "variableScheme", function() { return variableScheme; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "variableTypes", function() { return variableTypes; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "VariableType", function() { return VariableType; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getVariableTypeByValue", function() { return getVariableTypeByValue; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "htmlVariableScheme", function() { return htmlVariableScheme; });
 /* harmony import */ var _variables__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./variables */ "./js/accessibleUI/modules/variables/variables.js");
@@ -2328,7 +2391,7 @@ var variableScheme = {
 // Variable types
 // *********************************************************************************
 
-var variableTypes = [{
+var VariableType = [{
   name: 'inteiro',
   value: 'INTEGER',
   defaultValue: 0,
@@ -2361,8 +2424,8 @@ var variableTypes = [{
   barrier: ''
 }];
 function getVariableTypeByValue(value) {
-  for (var i = 0; i < variableTypes.length; i++) {
-    if (variableTypes[i].value === value) return variableTypes[i];
+  for (var i = 0; i < VariableType.length; i++) {
+    if (VariableType[i].value === value) return VariableType[i];
   }
 
   return null;
@@ -2370,16 +2433,14 @@ function getVariableTypeByValue(value) {
 // Html Schemes
 // *********************************************************************************
 
-var htmlVariableSchemeBuilt = '';
 function htmlVariableScheme() {
-  if (htmlVariableSchemeBuilt !== '') return htmlVariableSchemeBuilt;
   var variableTypesHtml = '';
 
-  for (var i = 0; i < variableTypes.length; i++) {
-    variableTypesHtml += "<option value=\"".concat(variableTypes[i].value, "\">").concat(variableTypes[i].name, "</option>\n");
+  for (var i = 0; i < VariableType.length; i++) {
+    variableTypesHtml += "<option value=\"".concat(VariableType[i].value, "\">").concat(VariableType[i].name, "</option>\n");
   }
 
-  return "<li id=\"variable<variableId>Li\">\n                <form id=\"variable<variableId>Form\">\n                    <div class=\"row p-2 w-100 variable-item\" style=\"background-color: antiquewhite;\">\n                        <!-- <div class=\"col-1 text-center my-auto\">\n                           <h5>".concat(_variables__WEBPACK_IMPORTED_MODULE_0__["variables"].length, "</h5>\n                        </div> -->\n                        <div class=\"col-2\">\n                            <select name=\"tipo\" class=\"form-control\" title=\"Tipo da vari\xE1vel\" id=\"variable<variableId>Type\" variable-id=\"<variableId>\">\n                                ").concat(variableTypesHtml, "\n                            </select>\n                        </div>\n                        <div class=\"col-2\">\n                            <input type=\"text\" class=\"form-control\" title=\"nome da vari\xE1vel\" id=\"variable<variableId>Name\" value=\"<variableName>\" variable-id=\"<variableId>\">\n                        </div>\n                        <div class=\"col-1 text-center my-auto\" style=\"margin-bottom: 0px !important\">\n                            <label for=\"variable<variableId>Value\" tabindex=\"0\" title=\"Recebe\">recebe</label>\n                        </div>\n                        <div class=\"col-2\">\n                            <input type=\"").concat(variableTypes[0].htmlType, "\" class=\"form-control\" id =\"variable<variableId>Value\" title=\"Valor da vari\xE1vel\" value=\"0\" variable-id=\"<variableId>\">\n                        </div>\n                        <div class=\"col my-auto\" style=\"text-align: end;\">\n                            <div class=\"row justify-content-end\">\n                                <div class=\"col-1\">\n                                    <a id=\"variable<variableId>Resume\" href=\"javascript:void(0)\" class=\"text-info\" variable-id=\"<variableId>\">\n                                        <i class=\"fas fa-eye\"></i>\n                                    </a>\n                                </div>\n                                <div class=\"col-1\">\n                                    <a id=\"variable<variableId>Delete\" href=\"javascript:void(0)\" class=\"text-danger\" variable-id=\"<variableId>\" title=\"Excluir\">X</a>\n                                </div>\n                            </div>\n                        </div>\n                    </div>\n                </form> \n          </li>");
+  return "<li id=\"variable<variableId>Li\">\n                <form id=\"variable<variableId>Form\">\n                    <div class=\"row p-2 w-100 variable-item\" style=\"background-color: antiquewhite;\">\n                        <!-- <div class=\"col-1 text-center my-auto\">\n                           <h5>".concat(_variables__WEBPACK_IMPORTED_MODULE_0__["variables"].length, "</h5>\n                        </div> -->\n                        <div class=\"col-2\">\n                            <select name=\"tipo\" class=\"form-control\" title=\"Tipo da vari\xE1vel\" id=\"variable<variableId>Type\" variable-id=\"<variableId>\">\n                                ").concat(variableTypesHtml, "\n                            </select>\n                        </div>\n                        <div class=\"col-2\">\n                            <input type=\"text\" class=\"form-control\" title=\"nome da vari\xE1vel\" id=\"variable<variableId>Name\" value=\"<variableName>\" variable-id=\"<variableId>\">\n                        </div>\n                        <div class=\"col-1 text-center my-auto\" style=\"margin-bottom: 0px !important\">\n                            <label for=\"variable<variableId>Value\" tabindex=\"0\" title=\"Recebe\">recebe</label>\n                        </div>\n                        <div class=\"col-2\">\n                            <input type=\"").concat(VariableType[0].htmlType, "\" class=\"form-control\" id =\"variable<variableId>Value\" title=\"Valor da vari\xE1vel\" value=\"0\" variable-id=\"<variableId>\">\n                        </div>\n                        <div class=\"col my-auto\" style=\"text-align: end;\">\n                            <div class=\"row justify-content-end\">\n                                <div class=\"col-1\">\n                                    <a id=\"variable<variableId>Resume\" href=\"javascript:void(0)\" class=\"text-info\" variable-id=\"<variableId>\">\n                                        <i class=\"fas fa-eye\"></i>\n                                    </a>\n                                </div>\n                                <div class=\"col-1\">\n                                    <a id=\"variable<variableId>Delete\" href=\"javascript:void(0)\" class=\"text-danger\" variable-id=\"<variableId>\" title=\"Excluir\">X</a>\n                                </div>\n                            </div>\n                        </div>\n                    </div>\n                </form> \n          </li>");
 } // *********************************************************************************
 
 /***/ }),
@@ -2413,7 +2474,7 @@ function createVariable() {
   var variable = Object.assign({}, _variables_schemes__WEBPACK_IMPORTED_MODULE_1__["variableScheme"]);
   variable.hash = Object(_main__WEBPACK_IMPORTED_MODULE_0__["generateUUID"])().replaceAll('-', '');
   variable.name = 'var' + variablesIndex;
-  variable.type = _variables_schemes__WEBPACK_IMPORTED_MODULE_1__["variableTypes"][0];
+  variable.type = _variables_schemes__WEBPACK_IMPORTED_MODULE_1__["VariableType"][0];
   variable.value = variable.type.defaultValue;
   variables.push(variable);
   variablesIndex++;
@@ -30295,4 +30356,4 @@ function enableMatrixValueUpdate(var_obj, row, index, parent_node, function_name
 
 /******/ });
 });
-//# sourceMappingURL=main.786419bb7be2f60403d2.js.map
+//# sourceMappingURL=main.1857a202cfd327dada2d.js.map
