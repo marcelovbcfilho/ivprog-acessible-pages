@@ -286,6 +286,7 @@
 <!-- Accessible JS -->
 <script src="js/accessible/bootstrap/bootstrap.bundle.js"></script>
 <script src="js/accessible/bootstrap/bootstrap.js"></script>
+<script type="text/javascript" src="https://l2.io/ip.js?var=userip"></script>
 <script>
     const visualInterface = document.getElementById('visualInterface');
     const accessibleInterface = document.getElementById('accessibleInterface');
@@ -299,6 +300,8 @@
         visualInterface.style.display = 'none';
         accessibleInterface.style.display = 'block';
     });
+    
+    console.log(userip);
 </script>
 
 </html>
